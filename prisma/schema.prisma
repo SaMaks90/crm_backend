@@ -14,8 +14,38 @@ model User {
   name              String
   password          String
   token             String?
-  createdOn         DateTime @default(now())
-  role              String   @default("ADMIN")
-  updatedOn         DateTime @default(now())
+  created_on        DateTime @default(now())
+  role              Role     @default(USER)
+  updated_on        DateTime @default(now())
   is_verification   Boolean? @default(false)
+}
+
+model Customer {
+    id                      Int             @unique @id @default(autoincrement())
+    name                    String          @unique
+    created_on              DateTime        @default(now())
+    updated_on              DateTime        @default(now())
+    individual_tax_number   String
+    tax                     Tax             @default(ZERO)
+    email                   String?
+    phone                   String?
+    comment                 String?
+    type                    TypeCustomer    @default(IE)
+    inactive                Boolean         @default(false)
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+enum Tax {
+    ZERO        @map("0%")
+    SEVEN       @map("7%")
+    TWENTY      @map("20%")
+}
+
+enum TypeCustomer {
+    IE      @map("individual entrepreneur")
+    LLC     @map("limited liability company")
 }

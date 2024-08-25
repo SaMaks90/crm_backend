@@ -4,9 +4,9 @@ export interface IUser {
   name: string;
   password: string;
   token: string;
-  createdOn: Date;
+  created_on: Date;
   role: string;
-  updatedOn: Date;
+  updated_on: Date;
   is_verification: boolean;
 }
 
