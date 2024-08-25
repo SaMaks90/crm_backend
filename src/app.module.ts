@@ -13,9 +13,10 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './common/guard/auth.guard';
+import { CustomerModule } from './customer/customer.module';
 
 @Module({
-  imports: [UserModule, AuthModule],
+  imports: [UserModule, AuthModule, CustomerModule],
   controllers: [AppController],
   providers: [
     AppService,

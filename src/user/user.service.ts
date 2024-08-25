@@ -1,6 +1,6 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { hashing } from '../common/utils/hashing-data';
 import { IUser } from './user.type';
 
@@ -11,7 +11,7 @@ export class UserService {
   async getUser(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<IUser | null> {
-    const user: User = await this.prisma.user.findUnique({
+    const user: IUser = await this.prisma.user.findUnique({
       where: userWhereUniqueInput,
     });
     return user;
@@ -31,7 +31,7 @@ export class UserService {
   }): Promise<IUser> {
     return await this.prisma.user.update({
       where: params.where,
-      data: { ...params.data, updatedOn: new Date().toISOString() },
+      data: { ...params.data, updated_on: new Date().toISOString() },
     });
   }
 
