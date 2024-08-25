@@ -8,10 +8,15 @@ import {
   Put,
   HttpException,
   HttpStatus,
+  Req,
+  Param,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User as UserModel } from '@prisma/client';
 import { Public } from '../common/decorator/public.decorator';
+import { Request } from 'express';
+import { IUser, IUserReturn } from './user.type';
+import { excludeKeyInObject } from '../common/utils/exclude-key-in-object';
 
 @Controller('user')
 export class UserController {
@@ -19,9 +24,12 @@ export class UserController {
 
   @Public()
   @Get()
-  async getUser(@Query('email') email: string): Promise<UserModel | null> {
+  async getUser(
+    @Query('email') email: string,
+  ): Promise<IUserReturn | any | null> {
     try {
-      return this.userService.getUser({ email });
+      const user = await this.userService.getUser({ email });
+      return excludeKeyInObject(user, ['token', 'password']);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
@@ -29,7 +37,7 @@ export class UserController {
 
   @Public()
   @Post()
-  async createUser(@Body() data: UserModel): Promise<UserModel> {
+  async createUser(@Body() data: UserModel): Promise<IUserReturn | any> {
     try {
       const user = await this.userService.getUser({ email: data.email });
 
@@ -39,17 +47,19 @@ export class UserController {
           HttpStatus.BAD_REQUEST,
         );
       }
-
-      return this.userService.createUser(data);
+      const newUser = await this.userService.createUser(data);
+      return excludeKeyInObject(newUser, ['token', 'password']);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Delete()
-  async deleteUser(@Query('email') email: string): Promise<UserModel> {
+  async deleteUser(@Req() req: Request): Promise<IUserReturn | any> {
     try {
-      return this.userService.deleteUser({ email });
+      const userId = req['user'].sub;
+      const user = await this.userService.deleteUser({ id: userId });
+      return excludeKeyInObject(user, ['token', 'password']);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }
@@ -57,11 +67,17 @@ export class UserController {
 
   @Put()
   async updateUser(
-    @Query('email') email: string,
     @Body() data: UserModel,
-  ): Promise<UserModel> {
+    @Req() req: Request,
+  ): Promise<IUserReturn | any> {
     try {
-      return this.userService.updateUser({ where: { email }, data: data });
+      const userId = req['user'].sub;
+      const user = await this.userService.updateUser({
+        where: { id: userId },
+        data: data,
+      });
+
+      return excludeKeyInObject(user, ['token', 'password']);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
     }

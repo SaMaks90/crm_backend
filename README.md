@@ -5,6 +5,7 @@ CRM BackEnd on NestJS Description
   - POST /user - create user { name, email } public branch;
   - PUT /user - update user find by email with token Bearer;
   - DELETE /user - delete user find by email with token Bearer;
+  - User Data returned without key password and token;
 - Object User: name, email, password, token, createdOn, updatedOn, role, id (generation on the server) and isVerification (for confirmation user by letter on email);
 
 - Create DataBase PostgreSQL on AWS;
