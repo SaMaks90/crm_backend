@@ -15,7 +15,7 @@ export class CustomerService {
     whereUniqueInput: Prisma.CustomerWhereUniqueInput,
   ): Promise<ICustomer | null> {
     return await this.prisma.customer.findUnique({
-      where: whereUniqueInput,
+      where: { id: +whereUniqueInput.id },
     });
   }
 

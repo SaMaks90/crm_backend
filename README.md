@@ -8,9 +8,18 @@ CRM BackEnd on NestJS Description
   - User Data returned without key password and token;
 - Object User: name, email, password, token, createdOn, updatedOn, role, id (generation on the server) and isVerification (for confirmation user by letter on email);
 
+- Created a new branch for works with customer with token Bearer:
+  - GET /customer/:id - find by id;
+  - GET /customer - all customer;
+  - POST /customer - create customer;
+  - PUT /customer/:id - update customer find by id;
+  - DELETE /customer/:id - delete customer find by id;
+- Object Customer: id, name, created_on, updated_on, individual_tax_number, tax (ZERO - 0%, SEVEN - 7% AND TWENTY - 20%), email, phone, comment, type (IE and LLC) and inactive;
+
 - Create DataBase PostgreSQL on AWS;
 - Connection NestJS with PostgreSQL AWS;
 - Created a new table for Users;
+- Created a new table for Customer;
 
 - Added a new global middleware for the action logger;
 - Added a new exception filter for catch Http Error;
