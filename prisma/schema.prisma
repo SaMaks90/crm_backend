@@ -25,13 +25,22 @@ model Customer {
     name                    String          @unique
     created_on              DateTime        @default(now())
     updated_on              DateTime        @default(now())
-    individual_tax_number   String
+    individual_tax_number   String          @unique
     tax                     Tax             @default(ZERO)
     email                   String?
     phone                   String?
     comment                 String?
     type                    TypeCustomer    @default(IE)
     inactive                Boolean         @default(false)
+}
+
+model Item {
+    id                      Int             @unique @id @default(autoincrement())
+    name                    String          @unique
+    created_on              DateTime        @default(now())
+    updated_on              DateTime        @default(now())
+    default_tax             Tax             @default(ZERO)
+    description             String?
 }
 
 enum Role {

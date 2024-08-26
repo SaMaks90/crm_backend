@@ -11,11 +11,17 @@ export class CustomerService {
     return await this.prisma.customer.findMany();
   }
 
-  async getCustomer(
+  async getCustomerById(
     whereUniqueInput: Prisma.CustomerWhereUniqueInput,
   ): Promise<ICustomer | null> {
     return await this.prisma.customer.findUnique({
-      where: { id: +whereUniqueInput.id },
+      where: { id: +whereUniqueInput },
+    });
+  }
+
+  async getCustomerByInn(inn): Promise<ICustomer | null> {
+    return await this.prisma.customer.findUnique({
+      where: { individual_tax_number: inn },
     });
   }
 
@@ -30,7 +36,7 @@ export class CustomerService {
     where: Prisma.CustomerWhereUniqueInput;
   }): Promise<ICustomer> {
     return await this.prisma.customer.update({
-      where: params.where,
+      where: { id: +params.where },
       data: { ...params.data, updated_on: new Date().toISOString() },
     });
   }
@@ -38,6 +44,8 @@ export class CustomerService {
   async deleteCustomer(
     whereUniqueInput: Prisma.CustomerWhereUniqueInput,
   ): Promise<ICustomer> {
-    return await this.prisma.customer.delete({ where: whereUniqueInput });
+    return await this.prisma.customer.delete({
+      where: { id: +whereUniqueInput },
+    });
   }
 }
