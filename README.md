@@ -16,6 +16,14 @@ CRM BackEnd on NestJS Description
   - DELETE /customer/:id - delete customer find by id;
 - Object Customer: id, name, created_on, updated_on, individual_tax_number, tax (ZERO - 0%, SEVEN - 7% AND TWENTY - 20%), email, phone, comment, type (IE and LLC) and inactive;
 
+- Created a new branch for works with item with token Bearer:
+  - GET /item/:id - find by item;
+  - GET /item - all item;
+  - POST /item - create item;
+  - PUT /item/:id - update item find by id;
+  - DELETE /item/:id - delete item find by id;
+- Object Item: id, name, created_on, updated_on, default_tax (ZERO - 0%, SEVEN - 7% AND TWENTY - 20%) and description;
+
 - Create DataBase PostgreSQL on AWS;
 - Connection NestJS with PostgreSQL AWS;
 - Created a new table for Users;

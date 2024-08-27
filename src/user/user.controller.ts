@@ -22,13 +22,11 @@ import { excludeKeyInObject } from '../common/utils/exclude-key-in-object';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Public()
   @Get()
-  async getUser(
-    @Query('email') email: string,
-  ): Promise<IUserReturn | any | null> {
+  async getUser(@Req() req: Request): Promise<IUserReturn | any | null> {
     try {
-      const user = await this.userService.getUser({ email });
+      const userId = req['user'].sub;
+      const user = await this.userService.getUser({ id: userId });
       return excludeKeyInObject(user, ['token', 'password']);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST);

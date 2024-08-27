@@ -14,9 +14,10 @@ import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './common/guard/auth.guard';
 import { CustomerModule } from './customer/customer.module';
+import { ItemModule } from './item/item.module';
 
 @Module({
-  imports: [UserModule, AuthModule, CustomerModule],
+  imports: [UserModule, AuthModule, CustomerModule, ItemModule],
   controllers: [AppController],
   providers: [
     AppService,
